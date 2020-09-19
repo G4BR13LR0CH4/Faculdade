@@ -11,6 +11,16 @@ public class Cardapio {
 		lista.put(index, aux);
 	}
 	
+	public void removeProduto(String index) {
+		Produto aux = buscarProduto(index);
+		
+		lista.remove(index ,aux);
+	}
+	
+	public Produto buscarProduto(String index) {
+		Produto aux = lista.get(index);
+		return aux;
+	}
 	public void exibeLista() {
 		System.out.println("---------Cardapio------------");
 		for (Produto aux: lista.values()) {

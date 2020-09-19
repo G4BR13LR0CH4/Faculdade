@@ -2,9 +2,7 @@ package base;
 
 import java.util.Scanner;
 
-import empresa.Cardapio;
-import empresa.Pizza;
-import empresa.Produto;
+import empresa.*;
 import user.*;
 
 
@@ -13,6 +11,10 @@ public class Gmain {
 	public static void main(String[] args) {
 		//Nessa parte eu apenas crio todas as instancias necessarias para o teste.
 		//a parte onde código se inicia está marcada
+		Adm adm = new Adm();
+		adm.setNome("Adm1");
+		adm.setFuncao("Balconista");
+		
 		User user = new User();
 		user.setNome("Usuario1");
 		user.setTelefone("(xx)xxxxx-xxxx");
@@ -59,7 +61,7 @@ public class Gmain {
 		//Inicio do código
 		Scanner input = new Scanner(System.in);
 		int op_int, quantidade;
-		String id, obs;
+		String id, obs, ingredientes;
 		Boolean controle = true;
 		
 		while(controle ) {
@@ -122,7 +124,61 @@ public class Gmain {
 				controle = true;
 				
 			} else if(op_int == 1) {
-				System.out.println("Você está logado como --Adm-- ");
+				while(controle) {
+					System.out.println("\n");
+					System.out.println("Você está logado como --" + adm.getNome() + "-- ");
+					System.out.println("0 - Perfil:");
+					System.out.println("1 - Confirmar pedido: ");
+					System.out.println("2 - Cancelar pedido: ");
+					System.out.println("3 - Adicionar item ao cardapio: ");
+					System.out.println("4 - Remover item do cardapio:");
+					System.out.println("5 - Exibir cardapio: ");
+					System.out.println("6 - Sair:");
+					op_int = input.nextInt();
+					
+					if(op_int == 0) {
+						adm.exibeperfil();
+					} else if(op_int == 1) {
+						user.pedido.setStatus("Pedido confirmado");
+					} else if(op_int == 2) {
+						user.pedido.setStatus("Pedido cancelado");
+					} else if(op_int == 3) {
+						System.out.println("Você está prestes a adicionar um item ao cardapio:");
+						obs = input.nextLine();
+						Produto instancia = new Produto();
+						
+						System.out.println("Digite o nome do produto: ");
+						obs = input.nextLine();
+						System.out.println("Digite o ID: ");
+						id = input.nextLine();
+						System.out.println("Digite os ingredientes: ");
+						ingredientes = input.nextLine();
+						
+						instancia.setId(id);
+						instancia.setNome(obs);
+						instancia.setIngredientes(ingredientes);
+						
+						cardapio.addProduto(instancia, instancia.getId());
+						
+						System.out.println("Produto adicionado com sucesso!");
+					} else if(op_int == 4) {
+						System.out.println("Você está prestes a remover um item do cardapio:");
+						id = input.nextLine();
+						
+						System.out.println("Digite o ID: ");
+						id = input.nextLine();
+						
+						cardapio.removeProduto(id);
+						System.out.println("Produto removido com sucesso!");
+					} else if(op_int == 5) {
+						cardapio.exibeLista();
+					} else if(op_int == 6) {
+						controle = false;
+					} else
+						System.out.println("Valor inválido");
+					
+				}
+				controle = true;
 			} else if(op_int == 2) {
 				controle = false;
 			} else
