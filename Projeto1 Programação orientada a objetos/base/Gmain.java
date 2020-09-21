@@ -60,8 +60,8 @@ public class Gmain {
 		
 		//Inicio do código
 		Scanner input = new Scanner(System.in);
-		int op_int, quantidade;
-		String id, obs, ingredientes;
+		int op_int, quantidade, valor1, valor2, troco;
+		String id, obs, ingredientes, tam;
 		Boolean controle = true;
 		
 		while(controle ) {
@@ -102,7 +102,13 @@ public class Gmain {
 							System.out.println("Alguma observação?");
 							obs = input.nextLine();
 							
-							user.pedido.carrinho.addCar_item(id, quantidade, obs);
+							if(id.compareTo("03") == 0 || id.compareTo("04") == 0) {
+								System.out.println("Digite o tamanho: ");
+								tam = input.nextLine();
+								user.pedido.carrinho.addCar_item(id, quantidade, obs, tam);
+							} else
+								user.pedido.carrinho.addCar_item(id, quantidade, obs);
+							
 							System.out.println("Produto adicionado com sucesso!");
 						}
 					} else if(op_int == 2) {
@@ -133,7 +139,8 @@ public class Gmain {
 					System.out.println("3 - Adicionar item ao cardapio: ");
 					System.out.println("4 - Remover item do cardapio:");
 					System.out.println("5 - Exibir cardapio: ");
-					System.out.println("6 - Sair:");
+					System.out.println("6 - Concluir pagamento:");
+					System.out.println("7 - Sair:");
 					op_int = input.nextInt();
 					
 					if(op_int == 0) {
@@ -172,8 +179,40 @@ public class Gmain {
 						System.out.println("Produto removido com sucesso!");
 					} else if(op_int == 5) {
 						cardapio.exibeLista();
-					} else if(op_int == 6) {
+					} else if(op_int == 7) {
 						controle = false;
+					} else if(op_int == 6) {
+						System.out.println("Qual o tipo de pagamento?");
+						System.out.println("1 - Cartão: ");
+						System.out.println("2 - Dinheiro: ");
+						op_int = input.nextInt();
+						
+						System.out.println("Qual o valor da compra?");
+						valor1 = input.nextInt();
+						
+						if(op_int == 1) {
+							Cartao cart = new Cartao();
+							cart.tipo("Cartão");
+							cart.pedido(user.pedido);
+							cart.valor(valor1);
+						} else if (op_int == 2) {
+							Dinheiro din = new Dinheiro();
+							din.tipo("Dinheiro");
+							din.pedido(user.pedido);
+							System.out.println("Qual o valor pago?");
+							valor2 = input.nextInt();
+							troco = din.troco(valor1,valor2);
+							System.out.println("Troco: " + troco);
+							
+						} 
+						
+						System.out.println("\n****Pedido Pago****");
+						System.out.println("Usuario: " + user.getNome());
+						System.out.println("Valor total da compra: " + valor1);
+						System.out.println("Forma de pagamento: " + user.pedido.forma_pagamento(op_int));
+						System.out.println("Adm responsavel: " + adm.getNome());
+						System.out.println("********************\n");
+						
 					} else
 						System.out.println("Valor inválido");
 					
