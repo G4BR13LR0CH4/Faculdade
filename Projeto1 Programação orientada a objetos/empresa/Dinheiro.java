@@ -7,7 +7,7 @@ public class Dinheiro implements Forma_pagamento{
 	
 	public int troco(int valor_pago, int conta) {
 		valor(conta);
-		this.troco = valor_pago - conta;
+		this.troco = conta - valor_pago;
 		pedido.setStatus("Pedido concluido");
 		return troco;
 	}
